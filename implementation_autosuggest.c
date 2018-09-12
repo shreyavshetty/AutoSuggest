@@ -1,16 +1,3 @@
-// C program to demonstrate autocompletion of words using ternary tree
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#define MAX 50
-char s[20];
-// A node of ternary search tree
-struct Node
-{
-    char data;//to store the character of a word
-    unsigned isEndOfString: 1;// True if this character is last character of one of the words
-    struct Node *left, *eq, *right;//Left pointer, Right pointer and Equality pointer
-};
 
 //function to create a new ternary search tree node
 struct Node* newNode(char data)
@@ -114,42 +101,4 @@ int searchTST(struct Node *root, char *word)
 
         return searchTST(root->eq, word+1);/*call searchTST function till its the last charcter of the word*/
     }
-}
-
-// Driver program to test above functions
-int main()
-{
-    struct Node *root = NULL;//root set to NULL
-    FILE* file = fopen("word_list.txt", "r"); //Open the txt file
-    char line[256];
-
-    while (fgets(line, sizeof(line), file)) {//read each line from the text file
-        /* note that fgets don't strip the terminating \n, checking its
-           presence would allow to handle lines longer that sizeof(line) */
-	int len=strlen(line);
-	if(line[len-1]=='\n')
-	{
-		line[len-1]=0;
-	}
-
-         insert(&root,line);//start inserting each word from the text file
-    }
-    fclose(file);//close the file here
-    int exit = 0;
-    while(!exit)
-    {
-        printf("Enter your text or Enter 0 to exit: ");//take the text from user
-        scanf("%s",s);
-        if(strcmp("0",s)!=0)
-        {
-          searchTST(root, s)? printf("\nNot Found\n"): printf("\n");
-        }
-        else
-        {
-          break;
-        }
-
-    }
-
-    return 0;
 }
